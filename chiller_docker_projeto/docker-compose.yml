@@ -1,0 +1,22 @@
+services:
+  mongo:
+    image: mongo
+    environment:
+      - TZ=Europe/Lisbon
+    container_name: chiller_db
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  reader:
+    build:
+      context: ./services
+    environment:
+      - TZ=Europe/Lisbon
+    depends_on:
+      - mongo
+    restart: always #loop
+
+volumes:
+  mongo_data:
